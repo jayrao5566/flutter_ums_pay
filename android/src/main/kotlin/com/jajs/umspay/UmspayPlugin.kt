@@ -2,6 +2,7 @@ package com.jajs.umspay
 
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageInfo
 import androidx.annotation.NonNull
 import io.flutter.Log
 import io.flutter.embedding.engine.plugins.FlutterPlugin
@@ -15,6 +16,7 @@ import io.flutter.plugin.common.StandardMessageCodec
 
 import com.chinaums.pppay.unify.UnifyPayPlugin;
 import com.chinaums.pppay.unify.UnifyPayRequest;
+import com.unionpay.UPPayAssistEx
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import org.json.JSONObject
@@ -53,6 +55,38 @@ class UmspayPlugin : FlutterPlugin, MethodCallHandler, PluginRegistry.ActivityRe
                 result.success("Android ${android.os.Build.VERSION.RELEASE}")
             }
 
+            "installed" -> {
+                // 云闪付app，微信app，支付宝app是否安装
+                val payType = call.arguments
+                val name: String = when (payType) {
+                    "uppay" -> "com.unionpay"
+                    "wechat" -> "com.tencent.mm"
+                    "ali" -> "com.eg.android.AlipayGphone"
+                    else -> ""
+                }
+                val packageManager = activity.packageManager
+                try {
+                    val packageInfo: PackageInfo = packageManager.getPackageInfo(name, 0)
+                    val installed = packageInfo != null && packageInfo.packageName.isNotBlank()
+                    Log.e(" === app", "installed is $installed")
+                    result.success(installed)
+                } catch (e: Exception) {
+                    result.success(false)
+                }
+            }
+
+            "cloundPay" -> {
+                // 云闪付
+                try {
+                    val payData = call.argument<String>("payData")
+                    val env = call.argument<String>("env")
+                    val tn = payData?.let { JSONObject(it).getString("tn") }
+                    UPPayAssistEx.startPay(activity, null, null, tn, env)
+                } catch (e: Throwable) {
+                    Log.e("cloundPay.ret", e.toString())
+                }
+            }
+
             "umsPay" -> {
                 try {
                     val payMode = call.argument<String>("payMode")
@@ -64,10 +98,9 @@ class UmspayPlugin : FlutterPlugin, MethodCallHandler, PluginRegistry.ActivityRe
                     request.payChannel = payChannel
                     request.payData = payData;
                     UnifyPayPlugin.getInstance(activity).sendPayRequest(request)
-                } catch (e: Error) {
-                    Log.e("ret", e.toString())
+                } catch (e: Exception) {
+                    Log.e("umsPay.ret", e.toString())
                 }
-
             }
 
             else -> {

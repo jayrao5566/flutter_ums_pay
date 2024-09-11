@@ -16,11 +16,48 @@
     <uses-permission android:name="android.permission.NFC" />
     <uses-permission android:name="org.simalliance.openmobileapi.SMARTCARD" />
 
+    <!--  银联商务天满平台配置 begin  -->
     <meta-data
         android:name="PPPaySDK"
         android:value="true" />
     <meta-data
         android:name="CurrentEnvironment"
         android:value="PROD" />
+
+    <!--  银联商务天满平台配置 end  -->
+
+    <!-- 如果您的 App 的 targetSdkVersion 大于或等于 30，则需要在 AndroidManifest.xml 中提供下面的应用可见性声明，
+     让支付宝 SDK 感知设备上是否已经安装了支付宝 App。同时，您可能还需要升级 Gradle Plugin 到最新版本。
+     关于 Android 11 的 "应用可见性" 机制，参见 https://developer.android.com/about/versions/11/privacy/package-visibility?hl=zh-cn -->
+    <queries>
+        <!-- 正式环境 -->
+        <package android:name="com.eg.android.AlipayGphone" />
+        <!-- 沙箱环境 -->
+        <package android:name="com.eg.android.AlipayGphoneRC" />
+        <package android:name="hk.alipay.wallet" />
+        <package android:name="com.tencent.mm" />
+    </queries>
+
+    <application>
+        <!--    云闪付配置 begin   -->
+        <uses-library
+            android:name="org.simalliance.openmobileapi"
+            android:required="false" />
+
+        <activity
+            android:name="com.unionpay.uppay.PayActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name="com.unionpay.UPPayWapActivity"
+            android:configChanges="orientation|keyboardHidden|fontScale"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!--    云闪付配置 end   -->
+    </application>
 
 </manifest>

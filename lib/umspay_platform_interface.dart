@@ -31,11 +31,29 @@ abstract class UmspayPlatform extends PlatformInterface {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 
+  Future<bool?> installed({
+    required AppPayMode payMode,
+  }) {
+    throw UnimplementedError('installed() has not been implemented.');
+  }
+
+  // 银联商务天满平台支付
   void umsPay({
     required UmsPayType type,
     required String payData,
     String? wechatAppId,
     String? universalLink,
+    VoidCallback? onSuccess,
+    ValueSetter? onFailure,
+  }) {
+    throw UnimplementedError('umsPay() has not been implemented.');
+  }
+
+  // 云闪付
+  void cloundPay({
+    required String? urlScheme, // ios配置
+    required String payData,
+    String env = "00", // 安卓配置
     VoidCallback? onSuccess,
     ValueSetter? onFailure,
   }) {

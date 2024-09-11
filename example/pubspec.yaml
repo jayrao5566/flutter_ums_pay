@@ -17,6 +17,10 @@ dependencies:
   flutter:
     sdk: flutter
 
+  # umspay: 
+    # git: 
+      # url: https://github.com/jayrao5566/flutter_ums_pay.git
+
   umspay:
     # When depending on this package from a real application you should use:
     #   umspay: ^x.y.z

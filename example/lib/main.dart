@@ -49,7 +49,10 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  void showTips(BuildContext context, {String? tips}) {
+  void _showTips(
+    BuildContext context, {
+    String? tips,
+  }) {
     debugPrint(" === 弹窗tips:$tips ===");
     showCupertinoDialog<bool>(
       barrierDismissible: true,
@@ -105,7 +108,7 @@ class _MyAppState extends State<MyApp> {
               children: [
                 Text('Running on: $_platformVersion\n'),
                 const SizedBox(
-                  height: 20,
+                  height: 40,
                 ),
                 GestureDetector(
                   onTap: () {
@@ -120,11 +123,11 @@ class _MyAppState extends State<MyApp> {
                         type: UmsPayType.aliminipay,
                         payData: payData,
                         onSuccess: () {
-                          showTips(context, tips: "成功");
+                          _showTips(context, tips: "成功");
                         },
                         onFailure: (err) {
                           debugPrint(" === error is : 失败 aaaaaaa:$err === ");
-                          showTips(context, tips: err.toString());
+                          _showTips(context, tips: err.toString());
                         },
                       );
                     } catch (e) {
@@ -132,6 +135,57 @@ class _MyAppState extends State<MyApp> {
                     }
                   },
                   child: const Text("跳转到支付宝小程序支付"),
+                ),
+                const SizedBox(
+                  height: 40,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    const payData = """
+{"tn": "760304680402643789213"}
+                        """;
+                    try {
+                      debugPrint(" === error:${"No"} === ");
+                      _umspayPlugin.cloundPay(
+                        urlScheme: "cdyncharge",
+                        payData: payData,
+                        env: "00",
+                        onSuccess: () {
+                          _showTips(context, tips: "成功");
+                        },
+                        onFailure: (err) {
+                          debugPrint(" === error is : 失败 aaaaaaa:$err === ");
+                          _showTips(context, tips: err.toString());
+                        },
+                      );
+                    } catch (e) {
+                      debugPrint(" === error:${e.toString()} === ");
+                    }
+                  },
+                  child: const Text("跳转到云闪付支付"),
+                ),
+                const SizedBox(
+                  height: 40,
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    try {
+                      const payMode = AppPayMode.uppay;
+                      final installed = await _umspayPlugin.installed(
+                        payMode: payMode,
+                      );
+                      debugPrint(" === 支付${payMode.code}是否安装:$installed === ");
+                      if (context.mounted) {
+                        _showTips(
+                          context,
+                          tips: installed == true ? "安装" : "没有安装",
+                        );
+                      }
+                    } catch (e) {
+                      debugPrint(" === error:${e.toString()} === ");
+                    }
+                  },
+                  child: const Text("支付app是否安装"),
                 ),
               ],
             ),
