@@ -57,8 +57,9 @@ android {
     }
 
     dependencies {
-//        api 'com.tencent.mm.opensdk:wechat-sdk-android:+'
-        implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:6.8.0'
+//        使用api引用，防止与其他库冲突
+        api 'com.tencent.mm.opensdk:wechat-sdk-android:+'
+//        implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:6.8.0'
         implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
         implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
 

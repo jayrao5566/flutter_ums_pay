@@ -18,16 +18,20 @@ dependencies:
     sdk: flutter
 
   # umspay: 
-    # git: 
-      # url: https://github.com/jayrao5566/flutter_ums_pay.git
+  #   git: 
+  #     url: https://github.com/jayrao5566/flutter_ums_pay.git
+
+  tobias: ^4.0.0
+  #微信
+  fluwx: ^4.5.5
 
   umspay:
+    path: ../
     # When depending on this package from a real application you should use:
     #   umspay: ^x.y.z
     # See https://dart.dev/tools/pub/dependencies#version-constraints
     # The example app is bundled with the plugin so we use a path dependency on
     # the parent directory to use the current plugin's version.
-    path: ../
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -87,3 +91,9 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+tobias:
+    url_scheme: ''
+    ios:
+        ignore_security: true
+    no_utdid: false

@@ -19,6 +19,7 @@ A new Flutter plugin project.
   s.public_header_files = 'Classes/*/*.h'
   s.static_framework = true
   s.dependency 'Flutter'
+  s.dependency 'WechatOpenSDK-XCFramework'
   s.platform = :ios, '12.0'
   s.ios.deployment_target = '12.0'
 
@@ -26,7 +27,7 @@ A new Flutter plugin project.
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
   s.swift_version = '5.0'
   s.requires_arc = true
-
+  s.user_target_xcconfig = { 'CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES' => 'YES' }
   pod_target_xcconfig = {
       'OTHER_LDFLAGS' => '$(inherited) -ObjC -all_load'
   }
