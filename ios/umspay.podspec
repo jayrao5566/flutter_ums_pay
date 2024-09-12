@@ -22,16 +22,19 @@ A new Flutter plugin project.
   s.dependency 'WechatOpenSDK-XCFramework'
   s.platform = :ios, '12.0'
   s.ios.deployment_target = '12.0'
+  s.exclude_files = ['Classes/AliSDK/AlipaySDK.bundle/*', 'Classes/AliSDK/AlipaySDK.framework/AlipaySDK-inside-Info.plist']
+
  
   s.swift_version = '5.0'
   s.requires_arc = true
   s.user_target_xcconfig = { 'CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES' => 'YES' }
   pod_target_xcconfig = {
-      'OTHER_LDFLAGS' => '$(inherited) -ObjC -all_load'
+      'OTHER_LDFLAGS' => '$(inherited) -ObjC -all_load',
   }
 
   # Flutter.framework does not contain a i386 slice.
-  s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
+  s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386',
+'ONLY_ACTIVE_ARCH' => 'NO' }
 
   s.resource_bundles = {'umspay_privacy' => ['Resources/PrivacyInfo.xcprivacy']}
 
