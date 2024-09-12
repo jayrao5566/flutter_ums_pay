@@ -22,6 +22,12 @@
 -keep public class * extends java.lang.Throwable {*;}
 -keep public class * extends java.lang.Exception {*;}
 
+#云闪付
+-dontwarn com.unionpay.**
+-keep class com.unionpay.** {*;}
+-keep class org.simalliance.openmobileapi.** {*;}
+-dontwarn com.huawei.**
+-keep class com.huawei.** {*;}
 
 # 微信
 -keep class com.tencent.mm.opensdk.** {*;}
