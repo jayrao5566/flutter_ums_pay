@@ -22,7 +22,7 @@ A new Flutter plugin project.
   s.dependency 'WechatOpenSDK-XCFramework'
   s.platform = :ios, '12.0'
   s.ios.deployment_target = '12.0'
-  s.exclude_files = ['Classes/AliSDK/AlipaySDK.bundle/*', 'Classes/AliSDK/AlipaySDK.framework/AlipaySDK-inside-Info.plist']
+#   s.exclude_files = ['Classes/AliSDK/AlipaySDK.bundle/*', 'Classes/AliSDK/AlipaySDK.framework/AlipaySDK-inside-Info.plist']
 
  
   s.swift_version = '5.0'
