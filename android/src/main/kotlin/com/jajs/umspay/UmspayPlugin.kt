@@ -19,6 +19,11 @@ import com.chinaums.pppay.unify.UnifyPayRequest;
 import com.unionpay.UPPayAssistEx
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.json.JSONException
 import org.json.JSONObject
 
 /** UmspayPlugin */
@@ -46,6 +51,10 @@ class UmspayPlugin : FlutterPlugin, MethodCallHandler, PluginRegistry.ActivityRe
             StandardMessageCodec.INSTANCE
         )
         channel.setMethodCallHandler(this)
+        Thread.setDefaultUncaughtExceptionHandler { thread, throwable ->
+            Log.e("UncaughtException", "Caught unhandled exception", throwable)
+            // 可以在这里添加更多的处理逻辑
+        }
     }
 
     override fun onMethodCall(call: MethodCall, result: Result) {
@@ -83,6 +92,8 @@ class UmspayPlugin : FlutterPlugin, MethodCallHandler, PluginRegistry.ActivityRe
                     val tn = payData?.let { JSONObject(it).getString("tn") }
                     UPPayAssistEx.startPay(activity, null, null, tn, env)
                 } catch (e: Throwable) {
+                    Log.e("cloundPay.ret", e.toString())
+                } catch (e: JSONException) {
                     Log.e("cloundPay.ret", e.toString())
                 }
             }

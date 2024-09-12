@@ -21,9 +21,9 @@ dependencies:
   #   git: 
   #     url: https://github.com/jayrao5566/flutter_ums_pay.git
 
-  tobias: ^4.0.0
+#  tobias: ^4.0.0
   #微信
-  fluwx: ^4.5.5
+#  fluwx: ^4.5.5
 
   umspay:
     path: ../
