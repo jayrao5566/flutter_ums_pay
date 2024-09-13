@@ -14,7 +14,7 @@ buildscript {
     }
 }
 
-allprojects {
+rootProject.allprojects {
     repositories {
         google()
         mavenCentral()
@@ -33,9 +33,9 @@ android {
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
-        main {
-            jniLibs.srcDirs = ['libs']
-        }
+//        main {
+//            jniLibs.srcDirs = ['libs']
+//        }
     }
 
     compileOptions {
@@ -49,7 +49,8 @@ android {
 
     repositories {
         flatDir {
-            dirs('libs')
+//            dirs project(':usmpay').file('libs')
+            dirs 'libs'
         }
     }
 
@@ -67,14 +68,14 @@ android {
     }
 
     dependencies {
-        implementation fileTree(include: ['*.jar'], dir: 'libs')
+        implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
 
 //        使用api引用，防止与其他库冲突
         api 'com.tencent.mm.opensdk:wechat-sdk-android:+'
 //        implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:6.8.0'
         implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-//        compileOnly files('libs/qmf-ppplugin-android-3.1.7-ali.aar')
-        implementation(name: 'qmf-ppplugin-android-3.1.7-ali', ext: 'aar')
+//        implementation(name 'qmf-ppplugin-android-3.1.7-ali', ext: 'aar')
+        compileOnly files('libs/qmf-ppplugin-android-3.1.7-ali.aar')
         testImplementation("org.jetbrains.kotlin:kotlin-test")
         testImplementation("org.mockito:mockito-core:5.0.0")
     }
