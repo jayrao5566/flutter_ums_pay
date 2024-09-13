@@ -47,16 +47,19 @@ android {
         jvmTarget = JavaVersion.VERSION_1_8
     }
 
+    repositories {
+        flatDir {
+            dirs('libs')
+        }
+    }
+
     sourceSets {
         main.java.srcDirs += "src/main/kotlin"
         test.java.srcDirs += "src/test/kotlin"
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
     }
-
-//    repositories {
-//        flatDir {
-//            dirs('libs')
-//        }
-//    }
 
     defaultConfig {
         minSdk = 21
@@ -70,7 +73,8 @@ android {
         api 'com.tencent.mm.opensdk:wechat-sdk-android:+'
 //        implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:6.8.0'
         implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-        compileOnly files('libs/qmf-ppplugin-android-3.1.7-ali.aar')
+//        compileOnly files('libs/qmf-ppplugin-android-3.1.7-ali.aar')
+        implementation(name: 'qmf-ppplugin-android-3.1.7-ali', ext: 'aar')
         testImplementation("org.jetbrains.kotlin:kotlin-test")
         testImplementation("org.mockito:mockito-core:5.0.0")
     }
