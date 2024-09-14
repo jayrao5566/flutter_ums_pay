@@ -23,7 +23,7 @@ A new Flutter plugin project.
   s.platform = :ios, '12.0'
   s.ios.deployment_target = '12.0'
   # 本地调试需要打开下面的注释，如发布的git上则需要注释掉
-#   s.exclude_files = ['Classes/AliSDK/AlipaySDK.bundle/*', 'Classes/AliSDK/AlipaySDK.framework/AlipaySDK-inside-Info.plist']
+  s.exclude_files = ['Classes/AliSDK/AlipaySDK.bundle/*', 'Classes/AliSDK/AlipaySDK.framework/AlipaySDK-inside-Info.plist']
 
  
   s.swift_version = '5.0'
