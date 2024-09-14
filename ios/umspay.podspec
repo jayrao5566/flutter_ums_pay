@@ -27,7 +27,9 @@ A new Flutter plugin project.
  
   s.swift_version = '5.0'
   s.requires_arc = true
-  s.user_target_xcconfig = { 'CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES' => 'YES' }
+  s.user_target_xcconfig = { 'CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES' => 'YES',
+    'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64'
+  }
   pod_target_xcconfig = {
       'OTHER_LDFLAGS' => '$(inherited) -ObjC -all_load',
   }
@@ -39,8 +41,6 @@ A new Flutter plugin project.
     'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64',
     'ONLY_ACTIVE_ARCH' => 'YES' 
   }
-
-  s.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
 
   s.resource_bundles = {'umspay_privacy' => ['Resources/PrivacyInfo.xcprivacy']}
 
