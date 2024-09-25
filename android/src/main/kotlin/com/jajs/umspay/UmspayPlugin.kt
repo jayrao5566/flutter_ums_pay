@@ -151,11 +151,13 @@ class UmspayPlugin : FlutterPlugin, MethodCallHandler, PluginRegistry.ActivityRe
     }
 
     override fun onDetachedFromActivityForConfigChanges() {
-        TODO("Not yet implemented")
+        // TODO("Not yet implemented")
+        Log.e("", "onDetachedFromActivityForConfigChanges")
     }
 
     override fun onDetachedFromActivity() {
-        TODO("Not yet implemented")
+        // TODO("Not yet implemented")
+        Log.e("", "onDetachedFromActivity")
     }
 
     override fun onNewIntent(intent: Intent): Boolean {
