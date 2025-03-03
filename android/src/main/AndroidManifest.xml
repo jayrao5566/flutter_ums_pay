@@ -24,6 +24,11 @@
         android:name="CurrentEnvironment"
         android:value="PROD" />
 
+    <!-- 手动禁用安卓深度链接，deeplink {From Flutter 3.24, you must disable it explicitly.} -->
+    <meta-data
+        android:name="flutter_deeplinking_enabled"
+        android:value="false" />
+
     <!--  银联商务天满平台配置 end  -->
 
     <!-- 如果您的 App 的 targetSdkVersion 大于或等于 30，则需要在 AndroidManifest.xml 中提供下面的应用可见性声明，
