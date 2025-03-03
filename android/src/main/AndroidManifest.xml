@@ -25,9 +25,6 @@
         android:value="PROD" />
 
     <!-- 手动禁用安卓深度链接，deeplink {From Flutter 3.24, you must disable it explicitly.} -->
-    <meta-data
-        android:name="flutter_deeplinking_enabled"
-        android:value="false" />
 
     <!--  银联商务天满平台配置 end  -->
 
