@@ -4,8 +4,8 @@ version: 1.0.1
 homepage: https://github.com/jayrao5566/flutter_ums_pay.git
 
 environment:
-  sdk: ^3.6.1
-  flutter: '>=3.27.3'
+  sdk: ^3.5.2
+  flutter: '>=3.24.2'
 
 dependencies:
   flutter:
