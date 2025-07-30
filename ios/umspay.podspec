@@ -20,8 +20,8 @@ A new Flutter plugin project.
   s.static_framework = true
   s.dependency 'Flutter'
   s.dependency 'WechatOpenSDK-XCFramework'
-  s.platform = :ios, '12.0'
-  s.ios.deployment_target = '12.0'
+  s.platform = :ios, '13.0'
+  s.ios.deployment_target = '13.0'
   # 下面的文件需要排除
   s.exclude_files = ['Classes/AliSDK/AlipaySDK.bundle/*', 'Classes/AliSDK/AlipaySDK.framework/AlipaySDK-inside-Info.plist']
  
