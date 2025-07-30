@@ -9,7 +9,7 @@
 //  sdk_version = 3.1.6
 
 #import <Foundation/Foundation.h>
-#import <WXApi.h>
+#import <WechatOpenSDK/WXApi.h>
 
 /**
  *  支付渠道
