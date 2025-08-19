@@ -2,7 +2,7 @@ group = "com.jajs.umspay"
 version = "1.0-SNAPSHOT"
 
 buildscript {
-    ext.kotlin_version = "2.0.20"
+    ext.kotlin_version = "2.1.0"
     repositories {
         google()
         mavenCentral()
@@ -29,7 +29,7 @@ android {
         namespace = "com.jajs.umspay"
     }
 
-    compileSdk = 35
+    compileSdk = 36
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -39,12 +39,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8
+        jvmTarget = JavaVersion.VERSION_17
     }
 
     repositories {
