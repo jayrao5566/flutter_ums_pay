@@ -6,7 +6,7 @@
 //  Copyright © 2016年 ChinaUMS. All rights reserved.
 //
 
-//  sdk_version = 3.1.6
+//  sdk_version = 3.1.8
 
 #import <Foundation/Foundation.h>
 

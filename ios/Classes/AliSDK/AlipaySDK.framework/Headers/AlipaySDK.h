@@ -9,7 +9,7 @@
 
 ////////////////////////////////////////////////////////
 ///////////////// 支付宝标准版本支付SDK ///////////////////
-///////// version:15.8.16  modify:2023.08.02///////////
+///////// version:15.8.42  modify:2026.04.16///////////
 ////////////////////////////////////////////////////////
 
 #import <UIKit/UIKit.h>
@@ -41,13 +41,21 @@ typedef enum {
 + (AlipaySDK *)defaultService;
 
 /**
- *  用于设置SDK使用的window，如果没有自行创建window无需设置此接口
+ *  用于设置SDK使用的window，Xcode26之后需要业务自行设置window。
  */
 @property (nonatomic, weak) UIWindow *targetWindow;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////支付宝支付相关接口/////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * 注册接口
+ *
+ * @param appId 商户appId
+ * @param universalLink       商户app关联的universalLink与开放平台配置一直
+ */
+- (void)registerApp:(NSString *)appId universalLink:(NSString *)universalLink;
 
 /**
  *  支付接口
@@ -219,13 +227,14 @@ fromUniversalLink:(NSString *)universalLink
  */
 - (void)setUrl:(NSString *)url;
 
+- (void)setMCGWUrl:(NSString *)url;
+
 /**
  *  支付前主动更新本地配置
  *
  *  @param block 更新请求结果回调
  */
 - (void)fetchSdkConfigWithBlock:(void(^)(BOOL success))block;
-
 
 typedef void(^APLogBlock)(NSString *log);
 

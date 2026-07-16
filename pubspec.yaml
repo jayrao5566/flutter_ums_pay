@@ -5,7 +5,7 @@ homepage: https://github.com/jayrao5566/flutter_ums_pay.git
 
 environment:
   sdk: ^3.5.2
-  flutter: '>=3.24.2'
+  flutter: '>=3.44.0'
 
 dependencies:
   flutter:
@@ -15,7 +15,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^4.0.0
+  flutter_lints: ^6.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

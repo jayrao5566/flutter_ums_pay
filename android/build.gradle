@@ -2,14 +2,14 @@ group = "com.jajs.umspay"
 version = "1.0-SNAPSHOT"
 
 buildscript {
-    ext.kotlin_version = "2.1.0"
+    ext.kotlin_version = "2.3.0"
     repositories {
         google()
         mavenCentral()
     }
 
     dependencies {
-        classpath("com.android.tools.build:gradle:8.6.0")
+        classpath("com.android.tools.build:gradle:8.11.1")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
     }
 }
@@ -72,10 +72,9 @@ android {
 
 //        使用api引用，防止与其他库冲突
         api 'com.tencent.mm.opensdk:wechat-sdk-android:+'
+        api 'com.alipay.sdk:alipaysdk-android:+@aar'
 //        implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:6.8.0'
-        implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-//        implementation(name 'qmf-ppplugin-android-3.1.7-ali', ext: 'aar')
-//        compileOnly files('libs/qmf-ppplugin-android-3.1.7-ali.aar')
+        // implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
         testImplementation("org.jetbrains.kotlin:kotlin-test")
         testImplementation("org.mockito:mockito-core:5.0.0")
     }

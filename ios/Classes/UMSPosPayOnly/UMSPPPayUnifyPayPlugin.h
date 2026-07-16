@@ -6,10 +6,10 @@
 //  Copyright © 2017年 ChinaUMS. All rights reserved.
 //
 
-//  sdk_version = 3.1.6
+//  sdk_version = 3.1.8
 
 #import <Foundation/Foundation.h>
-#import <WechatOpenSDK/WXApi.h>
+#import "WXApi.h"
 
 /**
  *  支付渠道

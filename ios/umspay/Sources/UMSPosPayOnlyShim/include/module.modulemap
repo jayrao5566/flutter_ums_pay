@@ -1,0 +1,6 @@
+module UMSPosPayOnlyShim {
+  umbrella header "UMSPosPayOnlyShim.h"
+
+  export *
+  module * { export * }
+}

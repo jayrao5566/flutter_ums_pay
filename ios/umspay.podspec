@@ -4,26 +4,23 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'umspay'
-  s.version          = '0.0.1'
+  s.version          = '0.0.2'
   s.summary          = 'A new Flutter plugin project.'
   s.description      = <<-DESC
 A new Flutter plugin project.
                        DESC
-  s.homepage         = 'http://example.com'
+  s.homepage         = 'https://github.com/jayrao5566/flutter_ums_pay.git'
   s.license          = { :file => '../LICENSE' }
   s.author           = { 'Your Company' => 'email@example.com' }
   s.source           = { :path => '.' }
   s.vendored_libraries = 'Classes/**/*.a'
   s.vendored_frameworks = 'Classes/**/*.framework'
-  s.source_files = 'Classes/**/*'
-  s.public_header_files = 'Classes/**/*.h'
+  s.source_files = 'umspay/Sources/umspay/**/*', 'umspay/Sources/UMSPosPayOnlyShim/**/*'
   s.static_framework = true
   s.dependency 'Flutter'
   s.dependency 'WechatOpenSDK-XCFramework'
   s.platform = :ios, '13.0'
   s.ios.deployment_target = '13.0'
-  # 下面的文件需要排除
-  s.exclude_files = ['Classes/AliSDK/AlipaySDK.bundle/*', 'Classes/AliSDK/AlipaySDK.framework/AlipaySDK-inside-Info.plist']
  
   s.swift_version = '5.0'
   s.requires_arc = true
@@ -42,7 +39,7 @@ A new Flutter plugin project.
     'ONLY_ACTIVE_ARCH' => 'YES' 
   }
 
-  s.resource_bundles = {'umspay_privacy' => ['Resources/PrivacyInfo.xcprivacy']}
+  s.resource_bundles = {'umspay_privacy' => ['umspay/Sources/umspay/PrivacyInfo.xcprivacy']}
 
   s.frameworks = 'SystemConfiguration', 'CoreTelephony', 'QuartzCore', 'CoreGraphics', 'CFNetwork', 'CoreMotion', 'WebKit'
   s.libraries = 'z','c++'
@@ -51,5 +48,5 @@ A new Flutter plugin project.
   # required reason APIs, update the PrivacyInfo.xcprivacy file to describe your
   # plugin's privacy impact, and then uncomment this line. For more information,
   # see https://developer.apple.com/documentation/bundleresources/privacy_manifest_files
-  # s.resource_bundles = {'umspay_privacy' => ['Resources/PrivacyInfo.xcprivacy']}
+  # s.resource_bundles = {'umspay_privacy' => ['umspay/Sources/umspay/PrivacyInfo.xcprivacy']}
 end
