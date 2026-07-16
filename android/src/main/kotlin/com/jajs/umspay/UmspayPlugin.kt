@@ -100,13 +100,17 @@ class UmspayPlugin : FlutterPlugin, MethodCallHandler, PluginRegistry.ActivityRe
 
             "umsPay" -> {
                 try {
-                    val payMode = call.argument<String>("payMode")
                     val payChannel = call.argument<String>("channel")
                     val payData = call.argument<String>("payData")
-                    val wechatAppId = call.argument<String>("wechatAppId")
-                    val universalLink = call.argument<String>("universalLink")
                     val request = UnifyPayRequest()
-                    request.payChannel = payChannel
+                    request.payChannel = when (payChannel) {
+                        "01" -> UnifyPayRequest.CHANNEL_WEIXIN
+                        "02" -> UnifyPayRequest.CHANNEL_ALIPAY
+                        "04" -> UnifyPayRequest.CHANNEL_ALIPAY_MINI_PROGRAM
+                        "05" -> UnifyPayRequest.CHANNEL_WEIXIN_MINI
+                        "06" -> UnifyPayRequest.CHANNEL_ALI_SDK
+                        else -> payChannel
+                    }
                     request.payData = payData;
                     UnifyPayPlugin.getInstance(activity).sendPayRequest(request)
                 } catch (e: Exception) {

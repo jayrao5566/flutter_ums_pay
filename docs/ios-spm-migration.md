@@ -8,7 +8,7 @@ support both Swift Package Manager (SPM) and CocoaPods for iOS.
 - The plugin now has an iOS Swift package at `ios/umspay/Package.swift`.
 - The plugin currently links these iOS binaries:
   - `ios/Classes/AliSDK/AlipaySDK.framework`
-  - `ios/Classes/UPPaymentControl/libPaymentControlMini.a`
+  - `ios/Classes/UPPaymentControl/UPPaymentControlMini.framework`
   - `ios/Classes/UMSPosPayOnly/libUMSPosPayOnly.a`
   - CocoaPods dependency: `WechatOpenSDK-XCFramework`
 - `ios/umspay.podspec` excludes simulator `arm64` globally:
@@ -29,9 +29,11 @@ support both Swift Package Manager (SPM) and CocoaPods for iOS.
     `ios/umspay/Binaries/AlipaySDK.xcframework`.
   - `WechatOpenSDK.xcframework` is copied into
     `ios/umspay/Binaries/WechatOpenSDK.xcframework`.
-  - `libUMSPosPayOnly.a` and `libPaymentControlMini.a` remain as raw vendored
-    static libraries and are linked from a small Objective-C shim target:
+  - `libUMSPosPayOnly.a` remains a raw vendored static library and is linked
+    from a small Objective-C shim target:
     `ios/umspay/Sources/UMSPosPayOnlyShim`.
+  - `UPPaymentControlMini.framework` is repackaged as
+    `ios/umspay/Binaries/UPPaymentControlMini.xcframework` for SwiftPM.
 - This is enough for device builds through Swift Package Manager.
 - Apple Silicon simulator support still depends on whether the vendors can
   provide `arm64-simulator` binaries for the local UMS and UnionPay libraries.

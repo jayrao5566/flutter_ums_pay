@@ -49,6 +49,7 @@ let package = Package(
             dependencies: [
                 "AlipaySDK",
                 "WechatOpenSDK",
+                "UPPaymentControlMini",
             ],
             path: "Sources/UMSPosPayOnlyShim",
             publicHeadersPath: "include",
@@ -56,7 +57,6 @@ let package = Package(
                 .unsafeFlags(
                     [
                         "\(packageDirectory)/../Classes/UMSPosPayOnly/libUMSPosPayOnly.a",
-                        "\(packageDirectory)/../Classes/UPPaymentControl/libPaymentControlMini.a",
                         "-ObjC",
                         "-all_load",
                     ],
@@ -71,6 +71,10 @@ let package = Package(
         .binaryTarget(
             name: "WechatOpenSDK",
             path: "Binaries/WechatOpenSDK.xcframework"
+        ),
+        .binaryTarget(
+            name: "UPPaymentControlMini",
+            path: "Binaries/UPPaymentControlMini.xcframework"
         ),
     ]
 )

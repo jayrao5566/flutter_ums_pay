@@ -8,6 +8,7 @@ OUTPUT_DIR="$IOS_DIR/umspay/Binaries"
 TMP_DIR="${TMPDIR:-/tmp}/umspay-spm-binaries"
 
 ALIPAY_SOURCE="$IOS_DIR/Classes/AliSDK/AlipaySDK.framework"
+UNIONPAY_SOURCE="$IOS_DIR/Classes/UPPaymentControl/UPPaymentControlMini.framework"
 WECHAT_SOURCE="$ROOT_DIR/example/ios/Pods/WechatOpenSDK-XCFramework/WechatOpenSDK.xcframework"
 
 write_framework_info_plist() {
@@ -70,6 +71,17 @@ copy_wechat_xcframework() {
   cp -R "$WECHAT_SOURCE" "$OUTPUT_DIR/WechatOpenSDK.xcframework"
 }
 
+create_unionpay_xcframework() {
+  if [[ ! -d "$UNIONPAY_SOURCE" ]]; then
+    echo "Missing UnionPay framework source at: $UNIONPAY_SOURCE" >&2
+    exit 1
+  fi
+
+  xcodebuild -create-xcframework \
+    -framework "$UNIONPAY_SOURCE" \
+    -output "$OUTPUT_DIR/UPPaymentControlMini.xcframework"
+}
+
 remove_ds_store_files() {
   find "$OUTPUT_DIR" -name '.DS_Store' -type f -delete
 }
@@ -86,6 +98,7 @@ main() {
 
   create_alipay_xcframework
   copy_wechat_xcframework
+  create_unionpay_xcframework
   remove_ds_store_files
 
   echo "Generated xcframeworks in $OUTPUT_DIR"

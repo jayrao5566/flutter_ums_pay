@@ -170,7 +170,7 @@ class _MyAppState extends State<MyApp> {
                 GestureDetector(
                   onTap: () async {
                     try {
-                      const payMode = AppPayMode.uppay;
+                      const payMode = AppPayMode.ali;
                       final installed = await _umspayPlugin.installed(
                         payMode: payMode,
                       );
@@ -178,7 +178,9 @@ class _MyAppState extends State<MyApp> {
                       if (context.mounted) {
                         _showTips(
                           context,
-                          tips: installed == true ? "安装" : "没有安装",
+                          tips: installed == true
+                              ? "$payMode-安装"
+                              : "$payMode-没有安装",
                         );
                       }
                     } catch (e) {
