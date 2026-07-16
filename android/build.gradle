@@ -69,6 +69,7 @@ android {
 
     dependencies {
         implementation fileTree(include: ['*.jar'], dir: 'libs')
+        implementation files('libs/qmf-ppplugin-android-3.1.8.aar')
 
 //        使用api引用，防止与其他库冲突
         api 'com.tencent.mm.opensdk:wechat-sdk-android:+'
@@ -91,5 +92,4 @@ android {
         }
     }
 }
-
 
