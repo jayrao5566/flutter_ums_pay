@@ -100,8 +100,11 @@ class UmspayPlugin : FlutterPlugin, MethodCallHandler, PluginRegistry.ActivityRe
 
             "umsPay" -> {
                 try {
+                    val payMode = call.argument<String>("payMode")
                     val payChannel = call.argument<String>("channel")
                     val payData = call.argument<String>("payData")
+                    val wechatAppId = call.argument<String>("wechatAppId")
+                    val universalLink = call.argument<String>("universalLink")
                     val request = UnifyPayRequest()
                     request.payChannel = when (payChannel) {
                         "01" -> UnifyPayRequest.CHANNEL_WEIXIN
