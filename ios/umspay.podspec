@@ -19,6 +19,7 @@ A new Flutter plugin project.
   s.static_framework = true
   s.dependency 'Flutter'
   s.dependency 'WechatOpenSDK-XCFramework'
+  s.dependency 'UTDID', '~> 1.0.0'
   s.platform = :ios, '13.0'
   s.ios.deployment_target = '13.0'
  
