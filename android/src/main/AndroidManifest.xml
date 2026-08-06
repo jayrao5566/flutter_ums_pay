@@ -10,10 +10,10 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.NFC" />
+    <uses-feature android:name="android.hardware.nfc.hce"/>
     <uses-permission android:name="org.simalliance.openmobileapi.SMARTCARD" />
 
     <!--  银联商务天满平台配置 begin  -->
@@ -38,6 +38,9 @@
         <package android:name="com.eg.android.AlipayGphoneRC" />
         <package android:name="hk.alipay.wallet" />
         <package android:name="com.tencent.mm" />
+        <package android:name="com.unionpay" />
+        <package android:name="com.unionpay.tsmservice" />
+        <package android:name="com.unionpay.tsmservice.mi" />
     </queries>
 
     <application>
