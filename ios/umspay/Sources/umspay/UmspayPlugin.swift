@@ -7,7 +7,7 @@ import UMSPosPayOnlyShim
 
 var messageChannel: FlutterBasicMessageChannel!
 
-public class UmspayPlugin: NSObject, FlutterPlugin {
+public class UmspayPlugin: NSObject, FlutterPlugin, FlutterSceneLifeCycleDelegate {
     public static func register(with registrar: FlutterPluginRegistrar) {
         messageChannel = FlutterBasicMessageChannel(
             name: "com.jajs.umspay.message",
@@ -18,6 +18,31 @@ public class UmspayPlugin: NSObject, FlutterPlugin {
         let instance = UmspayPlugin()
         registrar.addMethodCallDelegate(instance, channel: channel)
         registrar.addApplicationDelegate(instance)
+        if #available(iOS 13.0, *) {
+            registrar.addSceneDelegate(instance)
+        }
+    }
+
+    @available(iOS 13.0, *)
+    private func activeRootViewController() -> UIViewController? {
+        let windowScene = UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .first {
+                $0.activationState == .foregroundActive ||
+                $0.activationState == .foregroundInactive
+            }
+        let window = windowScene?.windows.first(where: \.isKeyWindow)
+            ?? windowScene?.windows.first
+
+        return window?.rootViewController
+            ?? UIApplication.shared.delegate?.window??.rootViewController
+    }
+
+    private func handleOpenURL(_ url: URL) -> Bool {
+        // 银联商务支付中的支付宝支付
+        // 充值成功之后要启动充电
+        UMSPPPayUnifyPayPlugin.aliMiniPayHandleOpen(url)
+        return UMSPPPayUnifyPayPlugin.cloudPayHandleOpen(url)
     }
 
     private func isAppInstalled(urlScheme: String) -> Bool {
@@ -47,7 +72,13 @@ public class UmspayPlugin: NSObject, FlutterPlugin {
                 debugPrint(" === 云闪付请求参数:\(params)  === ")
                 let urlScheme = params["urlScheme"] as? String
                 let payData = params["payData"] as? String
-                if let rootViewController = UIApplication.shared.delegate?.window??.rootViewController {
+                let rootViewController: UIViewController?
+                if #available(iOS 13.0, *) {
+                    rootViewController = activeRootViewController()
+                } else {
+                    rootViewController = UIApplication.shared.delegate?.window??.rootViewController
+                }
+                if let rootViewController = rootViewController {
                     debugPrint(" === rootViewController请求参数:\(params)  === ")
                     UMSPPPayUnifyPayPlugin.cloudPay(
                         withURLSchemes: urlScheme,
@@ -124,8 +155,32 @@ public class UmspayPlugin: NSObject, FlutterPlugin {
         open url: URL,
         options: [UIApplication.OpenURLOptionsKey: Any] = [:]
     ) -> Bool {
-        UMSPPPayUnifyPayPlugin.aliMiniPayHandleOpen(url)
-        UMSPPPayUnifyPayPlugin.cloudPayHandleOpen(url)
-        return true
+        handleOpenURL(url)
+    }
+
+    @available(iOS 13.0, *)
+    public func scene(
+        _ scene: UIScene,
+        willConnectTo session: UISceneSession,
+        options connectionOptions: UIScene.ConnectionOptions?
+    ) -> Bool {
+        guard let connectionOptions = connectionOptions else { return false }
+        var handled = false
+        for context in connectionOptions.urlContexts {
+            handled = handleOpenURL(context.url) || handled
+        }
+        return handled
+    }
+
+    @available(iOS 13.0, *)
+    public func scene(
+        _ scene: UIScene,
+        openURLContexts URLContexts: Set<UIOpenURLContext>
+    ) -> Bool {
+        var handled = false
+        for context in URLContexts {
+            handled = handleOpenURL(context.url) || handled
+        }
+        return handled
     }
 }
