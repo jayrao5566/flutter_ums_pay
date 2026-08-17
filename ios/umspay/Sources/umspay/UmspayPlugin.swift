@@ -45,6 +45,21 @@ public class UmspayPlugin: NSObject, FlutterPlugin, FlutterSceneLifeCycleDelegat
         return UMSPPPayUnifyPayPlugin.cloudPayHandleOpen(url)
     }
 
+    private func sendPayResult(resultCode: String?, resultInfo: String?) {
+        var resultParams: [String: Any] = [
+            "errStr": "支付失败",
+            "errCode": "1000",
+        ]
+        if let resultInfo,
+           let data = resultInfo.data(using: .utf8),
+           let json = try? JSONSerialization.jsonObject(with: data),
+           let params = json as? [String: Any] {
+            resultParams["errStr"] = params["resultMsg"]
+            resultParams["errCode"] = resultCode
+        }
+        messageChannel?.sendMessage(resultParams)
+    }
+
     private func isAppInstalled(urlScheme: String) -> Bool {
         guard let url = URL(string: urlScheme) else { return false }
         return UIApplication.shared.canOpenURL(url)
@@ -86,23 +101,7 @@ public class UmspayPlugin: NSObject, FlutterPlugin, FlutterSceneLifeCycleDelegat
                         viewController: rootViewController
                     ) { resultCode, resultInfo in
                         debugPrint(" === 云闪付支付 resultCode:\(resultCode ?? "") resultInfo:\(resultInfo ?? "") == ")
-                        do {
-                            if let resultParams = try! JSONSerialization.jsonObject(
-                                with: resultInfo!.data(using: .utf8)!,
-                                options: JSONSerialization.ReadingOptions.mutableContainers
-                            ) as? [String: Any] {
-                                let resultMsg = resultParams["resultMsg"]
-                                var resultParams: [String: Any] = [:]
-                                resultParams["errStr"] = resultMsg
-                                resultParams["errCode"] = resultCode
-                                messageChannel!.sendMessage(resultParams)
-                            }
-                        } catch {
-                            var resultParams: [String: Any] = [:]
-                            resultParams["errStr"] = "支付失败"
-                            resultParams["errCode"] = "1000"
-                            messageChannel.sendMessage(resultParams)
-                        }
+                        self.sendPayResult(resultCode: resultCode, resultInfo: resultInfo)
                     }
                 }
             }
@@ -126,23 +125,7 @@ public class UmspayPlugin: NSObject, FlutterPlugin, FlutterSceneLifeCycleDelegat
                     resultCode,
                     resultInfo in
                     debugPrint(" === 银联商务支付 resultCode:\(resultCode ?? "") resultInfo:\(resultInfo ?? "") == ")
-                    do {
-                        if let resultParams = try! JSONSerialization.jsonObject(
-                            with: resultInfo!.data(using: .utf8)!,
-                            options: JSONSerialization.ReadingOptions.mutableContainers
-                        ) as? [String: Any] {
-                            let resultMsg = resultParams["resultMsg"]
-                            var resultParams: [String: Any] = [:]
-                            resultParams["errStr"] = resultMsg
-                            resultParams["errCode"] = resultCode
-                            messageChannel!.sendMessage(resultParams)
-                        }
-                    } catch {
-                        var resultParams: [String: Any] = [:]
-                        resultParams["errStr"] = "支付失败"
-                        resultParams["errCode"] = "1000"
-                        messageChannel.sendMessage(resultParams)
-                    }
+                    self.sendPayResult(resultCode: resultCode, resultInfo: resultInfo)
                 }
             }
         default:
