@@ -34,10 +34,27 @@ public class UmspayPlugin: NSObject, FlutterPlugin, FlutterSceneLifeCycleDelegat
     }
 
     private func handleOpenURL(_ url: URL) -> Bool {
+        guard isUmspayURL(url) else { return false }
         // 银联商务支付中的支付宝支付
         // 充值成功之后要启动充电
         UMSPPPayUnifyPayPlugin.aliMiniPayHandleOpen(url)
-        return UMSPPPayUnifyPayPlugin.cloudPayHandleOpen(url)
+        _ = UMSPPPayUnifyPayPlugin.cloudPayHandleOpen(url)
+        return true
+    }
+
+    private func isUmspayURL(_ url: URL) -> Bool {
+        guard let urlTypes = Bundle.main.object(forInfoDictionaryKey: "CFBundleURLTypes") as? [[String: Any]],
+              let scheme = url.scheme else {
+            return false
+        }
+        return urlTypes.contains { urlType in
+            guard let name = urlType["CFBundleURLName"] as? String,
+                  ["ucloud", "umspay", "uppay"].contains(name),
+                  let schemes = urlType["CFBundleURLSchemes"] as? [String] else {
+                return false
+            }
+            return schemes.contains(scheme)
+        }
     }
 
     private func sendPayResult(resultCode: String?, resultInfo: String?) {
