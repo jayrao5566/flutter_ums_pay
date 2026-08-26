@@ -8,7 +8,7 @@ support both Swift Package Manager (SPM) and CocoaPods for iOS.
 - The plugin now has an iOS Swift package at `ios/umspay/Package.swift`.
 - The plugin currently links these iOS binaries:
   - `ios/Classes/AliSDK/AlipaySDK.framework`
-  - `ios/Classes/UPPaymentControl/UPPaymentControlMini.framework`
+  - `ios/Classes/UPPaymentControl/UPPaymentControlMini.xcframework`
   - `ios/Classes/UMSPosPayOnly/libUMSPosPayOnly.a`
   - CocoaPods dependency: `WechatOpenSDK-XCFramework`
 - `ios/umspay.podspec` excludes simulator `arm64` globally:
@@ -18,9 +18,10 @@ support both Swift Package Manager (SPM) and CocoaPods for iOS.
 
 - `WechatOpenSDK-XCFramework` already ships an
   `ios-arm64_x86_64-simulator` slice in `example/ios/Pods`.
-- The simulator `arm64` warning is therefore not caused by WeChat itself. It is
-  primarily caused by the plugin pod excluding simulator `arm64`, and likely by
-  the local `.a` libraries not providing `arm64-simulator` builds.
+- The simulator `arm64` warning is therefore not caused by WeChat or
+  `UPPaymentControlMini`. It is primarily caused by the plugin pod excluding
+  simulator `arm64`, by AlipaySDK only providing an `x86_64` simulator slice,
+  and by `libUMSPosPayOnly.a` not providing an `arm64-simulator` build.
 - Extracted `arm64` objects from the local static libraries report
   `LC_VERSION_MIN_IPHONEOS`, which indicates `iphoneos` device slices rather
   than `iphonesimulator` slices.
@@ -32,11 +33,12 @@ support both Swift Package Manager (SPM) and CocoaPods for iOS.
   - `libUMSPosPayOnly.a` remains a raw vendored static library and is linked
     from a small Objective-C shim target:
     `ios/umspay/Sources/UMSPosPayOnlyShim`.
-  - `UPPaymentControlMini.framework` is repackaged as
-    `ios/umspay/Binaries/UPPaymentControlMini.xcframework` for SwiftPM.
+  - `UPPaymentControlMini.xcframework` includes an `ios-arm64` device slice
+    and an `ios-arm64_x86_64-simulator` slice. It is used by both CocoaPods and
+    SwiftPM.
 - This is enough for device builds through Swift Package Manager.
-- Apple Silicon simulator support still depends on whether the vendors can
-  provide `arm64-simulator` binaries for the local UMS and UnionPay libraries.
+- Apple Silicon simulator support still depends on an `arm64-simulator` slice
+  from both AlipaySDK and `libUMSPosPayOnly.a`.
 - Flutter `build ios --no-codesign --config-only` upgraded the example app to
   iOS 13.0, which matches the plugin podspec's declared deployment target.
 - With `example/pubspec.yaml` explicitly setting
@@ -84,8 +86,8 @@ That means:
      `iphoneos` and `iphonesimulator` slices.
    - The current branch uses a shim target for the raw `.a` libraries because
      those SDKs are not yet clean SwiftPM binary targets.
-3. Remove the global simulator `arm64` exclusion from the podspec once all
-   binary dependencies support Apple Silicon simulators.
+3. Remove the global simulator `arm64` exclusion from the podspec once
+   AlipaySDK and `libUMSPosPayOnly.a` support Apple Silicon simulators.
 4. Keep CocoaPods support working.
    - `ios/umspay.podspec` must continue to build against the same sources and
      vendored artifacts.
@@ -98,7 +100,6 @@ That means:
 
 1. Obtain updated iOS SDK artifacts from the payment vendors:
    - Alipay
-   - UnionPay / UPPaymentControl
    - UMS Pos Pay
 2. Verify each artifact has:
    - `ios-arm64`
@@ -115,5 +116,8 @@ That means:
 - `flutter build ios --simulator`
 - No Flutter warning about missing SPM support
 - Apple Silicon simulator build currently fails because
-  `ios/Classes/UMSPosPayOnly/libUMSPosPayOnly.a` links its `arm64` slice as an
-  `iphoneos` binary rather than an `arm64-simulator` binary
+  `ios/umspay/Binaries/AlipaySDK.xcframework` only contains an `x86_64`
+  simulator slice and `ios/Classes/UMSPosPayOnly/libUMSPosPayOnly.a` links its
+  `arm64` slice as an `iphoneos` binary rather than an `arm64-simulator`
+  binary. The UnionPay `UPPaymentControlMini.xcframework` now includes both
+  device and simulator slices.

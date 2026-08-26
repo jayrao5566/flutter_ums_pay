@@ -8,7 +8,8 @@ OUTPUT_DIR="$IOS_DIR/umspay/Binaries"
 TMP_DIR="${TMPDIR:-/tmp}/umspay-spm-binaries"
 
 ALIPAY_SOURCE="$IOS_DIR/Classes/AliSDK/AlipaySDK.framework"
-UNIONPAY_SOURCE="$IOS_DIR/Classes/UPPaymentControl/UPPaymentControlMini.framework"
+UNIONPAY_DEVICE_SOURCE="$IOS_DIR/Classes/UPPaymentControl/ios-arm64/UPPaymentControlMini.framework"
+UNIONPAY_SIMULATOR_SOURCE="$IOS_DIR/Classes/UPPaymentControl/ios-arm64_x86_64-simulator/UPPaymentControlMini.framework"
 WECHAT_SOURCE="$ROOT_DIR/example/ios/Pods/WechatOpenSDK-XCFramework/WechatOpenSDK.xcframework"
 
 write_framework_info_plist() {
@@ -72,13 +73,19 @@ copy_wechat_xcframework() {
 }
 
 create_unionpay_xcframework() {
-  if [[ ! -d "$UNIONPAY_SOURCE" ]]; then
-    echo "Missing UnionPay framework source at: $UNIONPAY_SOURCE" >&2
+  if [[ ! -d "$UNIONPAY_DEVICE_SOURCE" ]]; then
+    echo "Missing UnionPay device framework source at: $UNIONPAY_DEVICE_SOURCE" >&2
+    exit 1
+  fi
+
+  if [[ ! -d "$UNIONPAY_SIMULATOR_SOURCE" ]]; then
+    echo "Missing UnionPay simulator framework source at: $UNIONPAY_SIMULATOR_SOURCE" >&2
     exit 1
   fi
 
   xcodebuild -create-xcframework \
-    -framework "$UNIONPAY_SOURCE" \
+    -framework "$UNIONPAY_DEVICE_SOURCE" \
+    -framework "$UNIONPAY_SIMULATOR_SOURCE" \
     -output "$OUTPUT_DIR/UPPaymentControlMini.xcframework"
 }
 

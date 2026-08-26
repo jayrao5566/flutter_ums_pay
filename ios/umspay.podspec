@@ -14,7 +14,10 @@ A new Flutter plugin project.
   s.author           = { 'Your Company' => 'email@example.com' }
   s.source           = { :path => '.' }
   s.vendored_libraries = 'Classes/**/*.a'
-  s.vendored_frameworks = 'Classes/**/*.framework'
+  s.vendored_frameworks = [
+    'Classes/AliSDK/AlipaySDK.framework',
+    'Classes/UPPaymentControl/UPPaymentControlMini.xcframework',
+  ]
   s.source_files = 'umspay/Sources/umspay/**/*', 'umspay/Sources/UMSPosPayOnlyShim/**/*'
   s.static_framework = true
   s.dependency 'Flutter'
