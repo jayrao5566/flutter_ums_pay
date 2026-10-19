@@ -10,7 +10,6 @@ TMP_DIR="${TMPDIR:-/tmp}/umspay-spm-binaries"
 ALIPAY_SOURCE="$IOS_DIR/Classes/AliSDK/AlipaySDK.framework"
 UNIONPAY_DEVICE_SOURCE="$IOS_DIR/Classes/UPPaymentControl/ios-arm64/UPPaymentControlMini.framework"
 UNIONPAY_SIMULATOR_SOURCE="$IOS_DIR/Classes/UPPaymentControl/ios-arm64_x86_64-simulator/UPPaymentControlMini.framework"
-WECHAT_SOURCE="$ROOT_DIR/example/ios/Pods/WechatOpenSDK-XCFramework/WechatOpenSDK.xcframework"
 
 write_framework_info_plist() {
   local plist_path="$1"
@@ -62,16 +61,6 @@ create_alipay_xcframework() {
     -output "$OUTPUT_DIR/AlipaySDK.xcframework"
 }
 
-copy_wechat_xcframework() {
-  if [[ ! -d "$WECHAT_SOURCE" ]]; then
-    echo "Missing WeChat xcframework source at: $WECHAT_SOURCE" >&2
-    echo "Run 'flutter build ios --no-codesign --config-only' in example/ first." >&2
-    exit 1
-  fi
-
-  cp -R "$WECHAT_SOURCE" "$OUTPUT_DIR/WechatOpenSDK.xcframework"
-}
-
 create_unionpay_xcframework() {
   if [[ ! -d "$UNIONPAY_DEVICE_SOURCE" ]]; then
     echo "Missing UnionPay device framework source at: $UNIONPAY_DEVICE_SOURCE" >&2
@@ -104,7 +93,6 @@ main() {
   mkdir -p "$OUTPUT_DIR"
 
   create_alipay_xcframework
-  copy_wechat_xcframework
   create_unionpay_xcframework
   remove_ds_store_files
 

@@ -10,6 +10,7 @@ support both Swift Package Manager (SPM) and CocoaPods for iOS.
   - `ios/Classes/AliSDK/AlipaySDK.framework`
   - `ios/Classes/UPPaymentControl/UPPaymentControlMini.xcframework`
   - `ios/Classes/UMSPosPayOnly/libUMSPosPayOnly.a`
+  - SPM dependency: `https://github.com/JarvanMo/WechatOpenSDK-SPM`
   - CocoaPods dependency: `WechatOpenSDK-XCFramework`
 - `ios/umspay.podspec` excludes simulator `arm64` globally:
   - `EXCLUDED_ARCHS[sdk=iphonesimulator*] = arm64`
@@ -28,8 +29,9 @@ support both Swift Package Manager (SPM) and CocoaPods for iOS.
 - The SPM implementation that currently builds does this:
   - `AlipaySDK.framework` is repackaged into a local
     `ios/umspay/Binaries/AlipaySDK.xcframework`.
-  - `WechatOpenSDK.xcframework` is copied into
-    `ios/umspay/Binaries/WechatOpenSDK.xcframework`.
+  - `WechatOpenSDK` is resolved from the
+    `JarvanMo/WechatOpenSDK-SPM` remote package, starting at version `2.0.8`.
+    The same package is used by `fluwx` in the host application.
   - `libUMSPosPayOnly.a` remains a raw vendored static library and is linked
     from a small Objective-C shim target:
     `ios/umspay/Sources/UMSPosPayOnlyShim`.

@@ -15,6 +15,10 @@ let package = Package(
     ],
     dependencies: [
         .package(name: "FlutterFramework", path: "../FlutterFramework"),
+        .package(
+            url: "https://github.com/JarvanMo/WechatOpenSDK-SPM",
+            from: "2.0.8"
+        ),
     ],
     targets: [
         .target(
@@ -22,7 +26,7 @@ let package = Package(
             dependencies: [
                 .product(name: "FlutterFramework", package: "FlutterFramework"),
                 "AlipaySDK",
-                "WechatOpenSDK",
+                .product(name: "WechatOpenSDK", package: "WechatOpenSDK-SPM"),
                 "UMSPosPayOnlyShim",
             ],
             path: "Sources/umspay",
@@ -48,7 +52,7 @@ let package = Package(
             name: "UMSPosPayOnlyShim",
             dependencies: [
                 "AlipaySDK",
-                "WechatOpenSDK",
+                .product(name: "WechatOpenSDK", package: "WechatOpenSDK-SPM"),
                 "UPPaymentControlMini",
             ],
             path: "Sources/UMSPosPayOnlyShim",
@@ -67,10 +71,6 @@ let package = Package(
         .binaryTarget(
             name: "AlipaySDK",
             path: "Binaries/AlipaySDK.xcframework"
-        ),
-        .binaryTarget(
-            name: "WechatOpenSDK",
-            path: "Binaries/WechatOpenSDK.xcframework"
         ),
         .binaryTarget(
             name: "UPPaymentControlMini",
